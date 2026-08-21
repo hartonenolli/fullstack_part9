@@ -17,7 +17,7 @@ const parseBmiArguments = (args: string[]): BmiValues => {
   }
 };
 
-const calculateBMI = (height: number, weight: number): string => {
+export const calculateBMI = (height: number, weight: number): string => {
   const heightInMeters = height / 100;
   const bmi = weight / Math.pow(heightInMeters, 2);
   
@@ -36,13 +36,15 @@ const calculateBMI = (height: number, weight: number): string => {
 return "Obese range";
 };
 
-try {
-  const { height, weight } = parseBmiArguments(process.argv);
-  console.log(calculateBMI(height, weight));
-} catch (error: unknown) {
-  let errorMessage = "Something went wrong.";
+if (process.argv[1] === import.meta.filename) {
+  try {
+    const { height, weight } = parseBmiArguments(process.argv);
+    console.log(calculateBMI(height, weight));
+  } catch (error: unknown) {
+    let errorMessage = "Something went wrong.";
+
   if (error instanceof Error) {
     errorMessage += " Error: " + error.message;
   }
   console.log(errorMessage);
-}
+}}
