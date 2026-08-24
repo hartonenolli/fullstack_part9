@@ -1,3 +1,4 @@
+import { z } from 'zod';
 import express from 'express';
 import patientsService from '../services/patientsService.ts';
 import parseNewPatient from '../utils.ts';
@@ -14,11 +15,12 @@ router.post('/', (req, res) => {
     const savedPatient = patientsService.addPatient(newPatient);
     res.send(savedPatient);
   } catch (error: unknown) {
-    let errorMessage = 'Something went wrong.';
-    if (error instanceof Error) {
-      errorMessage += ' Error: ' + error.message;
+    if (error instanceof z.ZodError) {
+      res.status(400).send(error.issues);
+      return;
+    } else {
+      res.status(400).send({ error: 'unknown error' });
     }
-    res.status(400).send(errorMessage);
   }
 });
 
