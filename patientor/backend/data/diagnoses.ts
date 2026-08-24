@@ -1,4 +1,5 @@
-const diagnosesData = [
+import type { Diagnosis } from '../types.ts';
+const diagnosesData: Diagnosis[] = [
   {
     "code": "M24.2",
     "name": "Disorder of ligament",
