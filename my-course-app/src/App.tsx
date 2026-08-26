@@ -54,7 +54,6 @@ export const Content = (props: ContentProps) => {
   );
 };
 
-
 export const Total = (props: TotalProps) => {
   return <p>Number of exercises {props.total}</p>;
 };
