@@ -10,6 +10,7 @@ const App = () => {
     visibility: 'great',
     comment: ''
   });
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchDiaries = async () => {
@@ -18,8 +19,13 @@ const App = () => {
         setDiaries(response);
       } catch (error) {
         console.error('Error fetching diaries:', error);
-    }
-  };
+        if (error instanceof Error) {
+          setErrorMessage(error.message);
+        } else {
+          setErrorMessage('Failed to fetch diary entries.');
+        }
+      }
+    };
 
     fetchDiaries();
   }, []);
@@ -35,15 +41,25 @@ const App = () => {
         visibility: newDiary.visibility,
         comment: newDiary.comment
       });
-    } catch (error) {
-      console.error('Error adding diary entry:', error);
+      setErrorMessage(null);
+    }catch (error) {
+      if (error instanceof Error) {
+        setErrorMessage("Error: " + error.message);
+      } else {
+        setErrorMessage('An unexpected error occurred.');
+      }
+
+      setTimeout(() => {
+        setErrorMessage(null);
+      }, 5000);
     }
   };
 
   return (
     <div>
       <h1>Flight Diaries</h1>
-          <form onSubmit={diaryCreation}>
+      {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
+      <form onSubmit={diaryCreation}>
       <div>
         <label>Date:</label>
         <input

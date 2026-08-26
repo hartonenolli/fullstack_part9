@@ -7,3 +7,12 @@ export interface DiaryEntry {
 }
 
 export type NewDiaryEntry = Omit<DiaryEntry, 'id'>;
+
+export type ErrorResponse = {
+  error: {
+    code: string;
+    message: string;
+    path: string[];
+    values: string[];
+  }[];
+};
