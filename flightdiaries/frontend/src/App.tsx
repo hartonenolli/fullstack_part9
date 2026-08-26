@@ -63,7 +63,7 @@ const App = () => {
       <div>
         <label>Date:</label>
         <input
-          type="text"
+          type="date"
           value={newDiary.date}
           onChange={(e) => setNewDiary({ ...newDiary, date: e.target.value })}
           required
@@ -72,20 +72,71 @@ const App = () => {
       <div>
         <label>Weather:</label>
         <input
-          type="text"
-          value={newDiary.weather}
+          type="radio"
+          name="weather"
+          value="sunny"
+          checked={newDiary.weather === 'sunny'}
           onChange={(e) => setNewDiary({ ...newDiary, weather: e.target.value as NewDiaryEntry['weather'] })}
-          required
-        />
+        /> Sunny
+        <input
+          type="radio"
+          name="weather"
+          value="rainy"
+          checked={newDiary.weather === 'rainy'}
+          onChange={(e) => setNewDiary({ ...newDiary, weather: e.target.value as NewDiaryEntry['weather'] })}
+        /> Rainy
+        <input
+          type="radio"
+          name="weather"
+          value="cloudy"
+          checked={newDiary.weather === 'cloudy'}
+          onChange={(e) => setNewDiary({ ...newDiary, weather: e.target.value as NewDiaryEntry['weather'] })}
+        /> Cloudy
+        <input
+          type="radio"
+          name="weather"
+          value="stormy"
+          checked={newDiary.weather === 'stormy'}
+          onChange={(e) => setNewDiary({ ...newDiary, weather: e.target.value as NewDiaryEntry['weather'] })}
+        /> Stormy
+        <input
+          type="radio"
+          name="weather"
+          value="windy"
+          checked={newDiary.weather === 'windy'}
+          onChange={(e) => setNewDiary({ ...newDiary, weather: e.target.value as NewDiaryEntry['weather'] })}
+        /> Windy
       </div>
       <div>
         <label>Visibility:</label>
         <input
-          type="text"
-          value={newDiary.visibility}
+          type="radio"
+          name="visibility"
+          value="great"
+          checked={newDiary.visibility === 'great'}
           onChange={(e) => setNewDiary({ ...newDiary, visibility: e.target.value as NewDiaryEntry['visibility'] })}
-          required
-        />
+        /> Great
+        <input
+          type="radio"
+          name="visibility"
+          value="good"
+          checked={newDiary.visibility === 'good'}
+          onChange={(e) => setNewDiary({ ...newDiary, visibility: e.target.value as NewDiaryEntry['visibility'] })}
+        /> Good
+        <input
+          type="radio"
+          name="visibility"
+          value="ok"
+          checked={newDiary.visibility === 'ok'}
+          onChange={(e) => setNewDiary({ ...newDiary, visibility: e.target.value as NewDiaryEntry['visibility'] })}
+        /> Ok
+        <input
+          type="radio"
+          name="visibility"
+          value="poor"
+          checked={newDiary.visibility === 'poor'}
+          onChange={(e) => setNewDiary({ ...newDiary, visibility: e.target.value as NewDiaryEntry['visibility'] })}
+        /> Poor
       </div>
       <div>
         <label>Comment:</label>
