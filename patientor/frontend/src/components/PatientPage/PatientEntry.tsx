@@ -1,6 +1,6 @@
 import type { Entry } from "../../types";
 
-const PatientEntry = ({ entry }: { entry: Entry | undefined }) => {
+const PatientEntry = ({ entry, diagnoses }: { entry: Entry | undefined; diagnoses: Record<string, string> }) => {
     if (!entry) {
         return null;
     }
@@ -10,7 +10,15 @@ const PatientEntry = ({ entry }: { entry: Entry | undefined }) => {
       <h2>Entries</h2>
       <h3>{entry.date}</h3>
       <p>{entry.description}</p>
-      <p>Diagnosis Codes: {entry.diagnosisCodes?.join(", ")}</p>
+        {entry.diagnosisCodes && (
+            <ul>
+                {entry.diagnosisCodes.map((code) => (
+                    <li key={code}>
+                        {code} {diagnoses[code] || "Unknown diagnosis"}
+                    </li>
+                ))}
+            </ul>
+        )}
     </div>
   );
 };

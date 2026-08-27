@@ -7,6 +7,7 @@ import {
 } from "@mui/icons-material";
 import type { Patient } from "../../types";
 import PatientService from "../../services/patients";
+import DiagnosisService from "../../services/diagnoses";
 import PatientEntry from "./PatientEntry";
 
 import {
@@ -20,6 +21,7 @@ import {
 const PatientPage = () => {
   const { id } = useParams<{ id: string }>();
   const [patient, setPatient] = useState<Patient | null>(null);
+  const [diagnoses, setDiagnoses] = useState<Record<string, string>>({});
 
   useEffect(() => {
     const fetchPatient = async () => {
@@ -34,8 +36,21 @@ const PatientPage = () => {
         console.error("Error fetching patient:", error);
       }
     };
+    const fetchDiagnoses = async () => {
+      try {
+        const fetchedDiagnoses = await DiagnosisService.getAll();
+        const diagnosesMap: Record<string, string> = {};
+        fetchedDiagnoses.forEach((diagnosis) => {
+          diagnosesMap[diagnosis.code] = diagnosis.name;
+        });
+        setDiagnoses(diagnosesMap);
+      } catch (error) {
+        console.error("Error fetching diagnoses:", error);
+      }
+    };
 
     void fetchPatient();
+    fetchDiagnoses();
   }, [id]);
   
   const genderIcon = (gender: string) => {
@@ -68,7 +83,7 @@ const PatientPage = () => {
           <Typography>Loading patient data...</Typography>
         </Box>
       )}
-      <PatientEntry entry={patient?.entries[0]} />
+      <PatientEntry entry={patient?.entries[0]} diagnoses={diagnoses} />
     </>
   );
 };
