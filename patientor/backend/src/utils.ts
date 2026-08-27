@@ -2,7 +2,8 @@ import { z } from 'zod';
 import { Gender, type NewPatient } from './types.ts';
 
 const parseNewPatient = (object: unknown): NewPatient => {
-  return newPatientSchema.parse(object);
+  const parsedPatient = newPatientSchema.parse(object);
+  return { ...parsedPatient, entries: [] };
 
 };
 
