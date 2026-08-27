@@ -18,6 +18,22 @@ import {
 } from "@mui/material";
 
 
+export const DiagnosisList = ({ diagnosisCodes, diagnoses }: { diagnosisCodes: string[] | undefined; diagnoses: Record<string, string> }) => {
+    if (!diagnosisCodes || diagnosisCodes.length === 0) {
+        return null;
+    }
+
+    return (
+        <ul>
+            {diagnosisCodes.map((code) => (
+                <li key={code}>
+                    {code} {diagnoses[code] || "Unknown diagnosis"}
+                </li>
+            ))}
+        </ul>
+    );
+};
+
 const PatientPage = () => {
   const { id } = useParams<{ id: string }>();
   const [patient, setPatient] = useState<Patient | null>(null);
@@ -83,7 +99,10 @@ const PatientPage = () => {
           <Typography>Loading patient data...</Typography>
         </Box>
       )}
-      <PatientEntry entry={patient?.entries[0]} diagnoses={diagnoses} />
+      {patient?.entries?.map((entry) => (
+        <PatientEntry key={entry.id} entry={entry} />
+      )) }
+      <DiagnosisList diagnosisCodes={patient?.entries[0]?.diagnosisCodes} diagnoses={diagnoses} />
     </>
   );
 };

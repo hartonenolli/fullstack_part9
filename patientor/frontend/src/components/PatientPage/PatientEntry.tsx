@@ -1,26 +1,23 @@
 import type { Entry } from "../../types";
+import HospitalEntry from "./HospitalEntry";
+import OccupationalEntry from "./OccupationalEntry";
+import HealthCheckEntry from "./HealthCheckEntry";
 
-const PatientEntry = ({ entry, diagnoses }: { entry: Entry | undefined; diagnoses: Record<string, string> }) => {
+const PatientEntry = ({ entry }: { entry: Entry | undefined; }) => {
     if (!entry) {
         return null;
     }
 
-  return (
-    <div>
-      <h2>Entries</h2>
-      <h3>{entry.date}</h3>
-      <p>{entry.description}</p>
-        {entry.diagnosisCodes && (
-            <ul>
-                {entry.diagnosisCodes.map((code) => (
-                    <li key={code}>
-                        {code} {diagnoses[code] || "Unknown diagnosis"}
-                    </li>
-                ))}
-            </ul>
-        )}
-    </div>
-  );
+    switch (entry.type) {
+        case "Hospital":
+            return <HospitalEntry entry={entry} />;
+        case "OccupationalHealthcare":
+            return <OccupationalEntry entry={entry} />;
+        case "HealthCheck":
+            return <HealthCheckEntry entry={entry} />;
+        default:
+            return null;
+    }
 };
 
 export default PatientEntry;
