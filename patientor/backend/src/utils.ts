@@ -18,9 +18,9 @@ const newPatientSchema = z.object({
 });
 
 const newEntrySchema = z.object({
-  description: z.string(),
-  date: z.string(),
-  specialist: z.string(),
+  description: z.string().min(1, 'Description is required'),
+  date: z.string().min(1, 'Date is required'),
+  specialist: z.string().min(1, 'Specialist is required'),
   diagnosisCodes: z.array(z.string()).optional(),
   type: z.enum(['HealthCheck', 'Hospital', 'OccupationalHealthcare']),
 });

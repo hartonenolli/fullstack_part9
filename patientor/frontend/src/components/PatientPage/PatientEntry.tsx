@@ -1,7 +1,7 @@
 import type { Entry } from "../../types";
-import HospitalEntry from "./HospitalEntry";
-import OccupationalEntry from "./OccupationalEntry";
-import HealthCheckEntry from "./HealthCheckEntry";
+import HospitalEntry from "./EntryTypes/HospitalEntry";
+import OccupationalEntry from "./EntryTypes/OccupationalEntry";
+import HealthCheckEntry from "./EntryTypes/HealthCheckEntry";
 
 const PatientEntry = ({ entry }: { entry: Entry | undefined; }) => {
     if (!entry) {

@@ -42,8 +42,11 @@ router.post('/:id/entries', (req, res) => {
 
   try {
     const newEntry = parseNewEntry(req.body);
-    patient.entries.push(newEntry);
-    res.send(newEntry);
+    const savedEntry = patientsService.addEntryToPatient(
+      req.params.id,
+      newEntry
+    );
+    res.send(savedEntry);
   } catch (error: unknown) {
     if (error instanceof z.ZodError) {
       res.status(400).send(error.issues);
