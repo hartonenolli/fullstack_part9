@@ -7,6 +7,7 @@ import {
 } from "@mui/icons-material";
 import type { Patient } from "../../types";
 import PatientService from "../../services/patients";
+import PatientEntry from "./PatientEntry";
 
 import {
   Box,
@@ -67,6 +68,7 @@ const PatientPage = () => {
           <Typography>Loading patient data...</Typography>
         </Box>
       )}
+      <PatientEntry entry={patient?.entries[0]} />
     </>
   );
 };
