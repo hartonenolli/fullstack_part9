@@ -45,6 +45,7 @@ export interface OccupationalHealthcareEntry extends BaseEntry {
 
 export type Entry = HealthCheckEntry | HospitalEntry | OccupationalHealthcareEntry;
 
+export type EntryType = Omit<Entry, 'id'>;
 
 export interface Patient {
   id: string;

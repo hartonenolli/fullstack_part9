@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import express from 'express';
 import patientsService from '../services/patientsService.ts';
-import parseNewPatient from '../utils.ts';
+import parseNewPatient, { parseNewEntry } from '../utils.ts';
 
 const router = express.Router();
 
@@ -30,6 +30,26 @@ router.post('/', (req, res) => {
     } else {
       res.status(400).send({ error: 'unknown error' });
     }
+  }
+});
+
+router.post('/:id/entries', (req, res) => {
+  const patient = patientsService.getPatientById(req.params.id);
+  if (!patient) {
+    res.status(404).send({ error: 'Patient not found' });
+    return;
+  }
+
+  try {
+    const newEntry = parseNewEntry(req.body);
+    patient.entries.push(newEntry);
+    res.send(newEntry);
+  } catch (error: unknown) {
+    if (error instanceof z.ZodError) {
+      res.status(400).send(error.issues);
+      return;
+    }
+    res.status(400).send({ error: 'Invalid entry data' });
   }
 });
 
