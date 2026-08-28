@@ -18,7 +18,12 @@ const OccupationalEntry = ({ entry }: { entry: Entry | undefined }) => {
                     {entry.employerName}
 				</Typography>
 				<Typography>{entry.description}</Typography>
-				<Typography>Employer: {entry.employerName}</Typography>
+				<Typography>Diagnose by: {entry.specialist}</Typography>
+				{entry.sickLeave && (
+					<Typography>
+						Sick Leave: {entry.sickLeave.startDate} - {entry.sickLeave.endDate}
+					</Typography>
+				)}
 			</CardContent>
 		</Card>
 	);

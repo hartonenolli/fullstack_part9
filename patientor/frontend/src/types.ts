@@ -45,6 +45,14 @@ export interface HospitalEntry extends BaseEntry {
   };
 }
 
+export interface NewHospitalEntry extends Omit<HospitalEntry, 'id'> {
+  type: "Hospital";
+  discharge: {
+    date: string;
+    criteria: string;
+  };
+}
+
 export interface OccupationalHealthcareEntry extends BaseEntry {
   type: "OccupationalHealthcare";
   employerName: string;
@@ -54,7 +62,11 @@ export interface OccupationalHealthcareEntry extends BaseEntry {
   };
 }
 
+export type NewOccupationalHealthcareEntry = Omit<OccupationalHealthcareEntry, 'id'>;
+
 export type Entry = HealthCheckEntry | HospitalEntry | OccupationalHealthcareEntry;
+
+export type NewEntry = NewHealthCheckEntry | NewHospitalEntry | NewOccupationalHealthcareEntry;
 
 export interface Patient {
   id: string;

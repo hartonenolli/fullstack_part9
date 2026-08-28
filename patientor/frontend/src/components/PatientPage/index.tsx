@@ -10,14 +10,19 @@ import PatientService from "../../services/patients";
 import DiagnosisService from "../../services/diagnoses";
 import PatientEntry from "./PatientEntry";
 import HealthCheckForm from "./EntryTypeForms/HealthCheckForm";
+import OccupationalHealthcareForm from "./EntryTypeForms/OccupationalHealthcareForm";
+import HospitalForm from "./EntryTypeForms/HospitalForm";
 
 import {
   Box,
-  Button,
   CircularProgress,
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
   Stack,
   Typography,
 } from "@mui/material";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 
 export const DiagnosisList = ({ diagnosisCodes, diagnoses }: { diagnosisCodes: string[] | undefined; diagnoses: Record<string, string> }) => {
@@ -40,7 +45,7 @@ const PatientPage = () => {
   const { id } = useParams<{ id: string }>();
   const [patient, setPatient] = useState<Patient | null>(null);
   const [diagnoses, setDiagnoses] = useState<Record<string, string>>({});
-  const [showEntryForm, setShowEntryForm] = useState(false);
+  const [entryType, setEntryType] = useState<"healthCheck" | "occupationalHealthcare" | "hospital" | null>(null);
   const [entryAdded, setEntryAdded] = useState(false);
 
   useEffect(() => {
@@ -84,10 +89,6 @@ const PatientPage = () => {
     }
   };
 
-  const handleAddEntry = () => {
-    setShowEntryForm(true);
-  };
-
   return (
     <>
       <Typography variant="h4" component="h2" gutterBottom>
@@ -100,18 +101,40 @@ const PatientPage = () => {
           <Typography><strong>SSN:</strong> {patient.ssn}</Typography>
           <Typography><strong>Occupation:</strong> {patient.occupation}</Typography>
           <Typography><strong>Date of Birth:</strong> {patient.dateOfBirth}</Typography>
-          {showEntryForm ? (
-            <>
-              <HealthCheckForm setEntryAdded={setEntryAdded} />
-              <Button variant="contained" color="secondary" sx={{ mt: 2, alignSelf: "flex-start" }} onClick={() => setShowEntryForm(false)}>
-                Cancel
-              </Button>
-            </>
-          ) : (
-            <Button variant="contained" color="primary" sx={{ mt: 2, alignSelf: "flex-start" }} onClick={handleAddEntry}>
-              Add New Entry
-            </Button>
-          )}
+          <Typography variant="h6" sx={{ mt: 2 }}>Choose entry type</Typography>
+          <Accordion
+            expanded={entryType === "healthCheck"}
+            onChange={() => setEntryType(entryType === "healthCheck" ? null : "healthCheck")}
+          >
+                <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                  <Typography>Health check</Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                  <HealthCheckForm setEntryAdded={setEntryAdded} />
+                </AccordionDetails>
+          </Accordion>
+          <Accordion
+            expanded={entryType === "occupationalHealthcare"}
+            onChange={() => setEntryType(entryType === "occupationalHealthcare" ? null : "occupationalHealthcare")}
+          >
+                <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                  <Typography>Occupational healthcare</Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                  <OccupationalHealthcareForm setEntryAdded={setEntryAdded} />
+                </AccordionDetails>
+          </Accordion>
+          <Accordion
+            expanded={entryType === "hospital"}
+            onChange={() => setEntryType(entryType === "hospital" ? null : "hospital")}
+          >
+                <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                  <Typography>Hospital</Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                  <HospitalForm setEntryAdded={setEntryAdded} />
+                </AccordionDetails>
+          </Accordion>
         </Stack>
         ) : (
         <Box sx={{ display: "flex", alignItems: "center", gap: 2, mt: 2 }}>

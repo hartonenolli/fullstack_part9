@@ -38,7 +38,7 @@ const HealthCheckForm = ({ setEntryAdded }: HealthCheckFormProps) => {
     const handleChange = async (event: React.SyntheticEvent) => {
         event.preventDefault();
         try {
-            const addedEntry = await PatientService.addHealthCheckEntry(id!, newEntry);
+            const addedEntry = await PatientService.addEntry(id!, newEntry);
             setNewEntry({
                 type: "HealthCheck",
                 date: "",
