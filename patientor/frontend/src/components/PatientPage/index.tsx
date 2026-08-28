@@ -41,6 +41,7 @@ const PatientPage = () => {
   const [patient, setPatient] = useState<Patient | null>(null);
   const [diagnoses, setDiagnoses] = useState<Record<string, string>>({});
   const [showEntryForm, setShowEntryForm] = useState(false);
+  const [entryAdded, setEntryAdded] = useState(false);
 
   useEffect(() => {
     const fetchPatient = async () => {
@@ -70,7 +71,7 @@ const PatientPage = () => {
 
     void fetchPatient();
     fetchDiagnoses();
-  }, [id]);
+  }, [id, entryAdded]);
   
   const genderIcon = (gender: string) => {
     switch (gender) {
@@ -101,7 +102,7 @@ const PatientPage = () => {
           <Typography><strong>Date of Birth:</strong> {patient.dateOfBirth}</Typography>
           {showEntryForm ? (
             <>
-              <HealthCheckForm />
+              <HealthCheckForm setEntryAdded={setEntryAdded} />
               <Button variant="contained" color="secondary" sx={{ mt: 2, alignSelf: "flex-start" }} onClick={() => setShowEntryForm(false)}>
                 Cancel
               </Button>

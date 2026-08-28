@@ -19,7 +19,11 @@ const healthCheckRatings = [
   { value: 3, label: 'Critical risk' },
 ] as const;
 
-const HealthCheckForm = () => {
+type HealthCheckFormProps = {
+    setEntryAdded: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+const HealthCheckForm = ({ setEntryAdded }: HealthCheckFormProps) => {
     const { id } = useParams<{ id: string }>();
     const [newEntry, setNewEntry] = useState<NewHealthCheckEntry>({
         type: "HealthCheck",
@@ -44,7 +48,7 @@ const HealthCheckForm = () => {
                 diagnosisCodes: [],
             });
             console.log("Entry added:", addedEntry);
-            window.location.reload();
+            setEntryAdded(true);
         } catch (error) {
         if (axios.isAxiosError(error)) {
             const responseError = error.response?.data;
