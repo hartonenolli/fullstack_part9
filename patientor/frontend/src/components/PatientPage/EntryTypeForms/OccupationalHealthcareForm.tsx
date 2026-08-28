@@ -77,6 +77,7 @@ const OccupationalHealthcareForm = ({
 				{error && <Typography color="error" variant="body2">{error}</Typography>}
 				<form onSubmit={handleSubmit}>
 					<TextField
+                        label="Date"
 						type="date"
 						value={newEntry.date}
 						onChange={(e) => setNewEntry({ ...newEntry, date: e.target.value })}
@@ -169,7 +170,7 @@ const OccupationalHealthcareForm = ({
 						color="primary"
 						sx={{ marginTop: 2 }}
 					>
-						Add Entry
+						Add
 					</Button>
 				</form>
 			</CardContent>

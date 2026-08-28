@@ -85,6 +85,7 @@ const HealthCheckForm = ({ setEntryAdded, diagnoses }: HealthCheckFormProps) => 
                 )}
                 <form onSubmit={handleChange}>
                     <TextField
+                        label="Date"
                         type="date"
                         value={newEntry.date}
                         onChange={(e) => setNewEntry({ ...newEntry, date: e.target.value })}
@@ -148,7 +149,7 @@ const HealthCheckForm = ({ setEntryAdded, diagnoses }: HealthCheckFormProps) => 
                         </Select>
                     </FormControl>
                     <Button type="submit" variant="contained" color="primary" sx={{ marginTop: 2 }}>
-                        Add Entry
+                        Add
                     </Button>
                 </form>
             </CardContent>

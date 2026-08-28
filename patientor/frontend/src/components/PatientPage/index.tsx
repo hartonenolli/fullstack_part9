@@ -15,14 +15,17 @@ import HospitalForm from "./EntryTypeForms/HospitalForm";
 
 import {
   Box,
+  Card,
+  CardContent,
   CircularProgress,
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
+  Button,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
   Stack,
   Typography,
 } from "@mui/material";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 
 export const DiagnosisList = ({ diagnosisCodes, diagnoses }: { diagnosisCodes: string[] | undefined; diagnoses: Record<string, string> }) => {
@@ -101,40 +104,52 @@ const PatientPage = () => {
           <Typography><strong>SSN:</strong> {patient.ssn}</Typography>
           <Typography><strong>Occupation:</strong> {patient.occupation}</Typography>
           <Typography><strong>Date of Birth:</strong> {patient.dateOfBirth}</Typography>
-          <Typography variant="h6" sx={{ mt: 2 }}>Choose entry type</Typography>
-          <Accordion
-            expanded={entryType === "healthCheck"}
-            onChange={() => setEntryType(entryType === "healthCheck" ? null : "healthCheck")}
-          >
-                <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                  <Typography>Health check</Typography>
-                </AccordionSummary>
-                <AccordionDetails>
-                  <HealthCheckForm setEntryAdded={setEntryAdded} diagnoses={diagnoses} />
-                </AccordionDetails>
-          </Accordion>
-          <Accordion
-            expanded={entryType === "occupationalHealthcare"}
-            onChange={() => setEntryType(entryType === "occupationalHealthcare" ? null : "occupationalHealthcare")}
-          >
-                <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                  <Typography>Occupational healthcare</Typography>
-                </AccordionSummary>
-                <AccordionDetails>
-                  <OccupationalHealthcareForm setEntryAdded={setEntryAdded} diagnoses={diagnoses} />
-                </AccordionDetails>
-          </Accordion>
-          <Accordion
-            expanded={entryType === "hospital"}
-            onChange={() => setEntryType(entryType === "hospital" ? null : "hospital")}
-          >
-                <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                  <Typography>Hospital</Typography>
-                </AccordionSummary>
-                <AccordionDetails>
-                  <HospitalForm setEntryAdded={setEntryAdded} diagnoses={diagnoses} />
-                </AccordionDetails>
-          </Accordion>
+          {!entryType && (
+            <Button
+              variant="contained"
+              onClick={() => setEntryType("healthCheck")}
+              sx={{ alignSelf: "flex-start", mt: 2 }}
+            >
+              Add New Entry
+            </Button>
+          )}
+          {entryType && (
+            <Card sx={{ mt: 1 }}>
+              <CardContent>
+                <Stack spacing={2}>
+                  <FormControl fullWidth>
+                    <InputLabel id="entry-type-label">Entry type</InputLabel>
+                    <Select
+                      labelId="entry-type-label"
+                      value={entryType}
+                      label="Entry type"
+                      onChange={(event) => setEntryType(event.target.value as typeof entryType)}
+                    >
+                      <MenuItem value="healthCheck">Health check</MenuItem>
+                      <MenuItem value="occupationalHealthcare">Occupational healthcare</MenuItem>
+                      <MenuItem value="hospital">Hospital</MenuItem>
+                    </Select>
+                  </FormControl>
+                  <Button
+                    variant="outlined"
+                    onClick={() => setEntryType(null)}
+                    sx={{ alignSelf: "flex-start" }}
+                  >
+                    Cancel
+                  </Button>
+                  {entryType === "healthCheck" && (
+                    <HealthCheckForm setEntryAdded={setEntryAdded} diagnoses={diagnoses} />
+                  )}
+                  {entryType === "occupationalHealthcare" && (
+                    <OccupationalHealthcareForm setEntryAdded={setEntryAdded} diagnoses={diagnoses} />
+                  )}
+                  {entryType === "hospital" && (
+                    <HospitalForm setEntryAdded={setEntryAdded} diagnoses={diagnoses} />
+                  )}
+                </Stack>
+              </CardContent>
+            </Card>
+          )}
         </Stack>
         ) : (
         <Box sx={{ display: "flex", alignItems: "center", gap: 2, mt: 2 }}>

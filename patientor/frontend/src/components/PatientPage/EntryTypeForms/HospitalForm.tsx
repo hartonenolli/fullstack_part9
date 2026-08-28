@@ -147,7 +147,7 @@ const HospitalForm = ({ setEntryAdded, diagnoses }: HospitalFormProps) => {
 						margin="normal"
 					/>
 					<Button type="submit" variant="contained" color="primary" sx={{ marginTop: 2 }}>
-						Add Entry
+						Add
 					</Button>
 				</form>
 			</CardContent>

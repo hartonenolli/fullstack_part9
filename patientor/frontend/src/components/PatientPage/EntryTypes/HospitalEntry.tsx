@@ -18,6 +18,11 @@ const HospitalEntry = ({ entry }: { entry: Entry | undefined; }) => {
                 </Typography>
                 <Typography>{entry.description}</Typography>
                 <Typography>Diagnosis by: {entry.specialist}</Typography>
+                {entry.discharge && (
+                    <Typography>
+                        Discharge: {entry.discharge.date} - {entry.discharge.criteria}
+                    </Typography>
+                )}
             </CardContent>
         </Card>
     );
