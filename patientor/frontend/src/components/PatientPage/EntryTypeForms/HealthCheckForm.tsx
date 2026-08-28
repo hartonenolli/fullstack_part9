@@ -7,23 +7,28 @@ import {
   Button,
   Card,
   CardContent,
+  FormControl,
+  InputLabel,
   MenuItem,
+  OutlinedInput,
+  Select,
   TextField,
   Typography,
 } from '@mui/material';
 
 const healthCheckRatings = [
-  { value: 0, label: 'Healthy' },
-  { value: 1, label: 'Low risk' },
-  { value: 2, label: 'High risk' },
-  { value: 3, label: 'Critical risk' },
+  { value: 0, label: '0 - Healthy' },
+  { value: 1, label: '1 - Low risk' },
+  { value: 2, label: '2 - High risk' },
+  { value: 3, label: '3 - Critical risk' },
 ] as const;
 
 type HealthCheckFormProps = {
     setEntryAdded: React.Dispatch<React.SetStateAction<boolean>>;
+    diagnoses: Record<string, string>;
 };
 
-const HealthCheckForm = ({ setEntryAdded }: HealthCheckFormProps) => {
+const HealthCheckForm = ({ setEntryAdded, diagnoses }: HealthCheckFormProps) => {
     const { id } = useParams<{ id: string }>();
     const [newEntry, setNewEntry] = useState<NewHealthCheckEntry>({
         type: "HealthCheck",
@@ -100,41 +105,48 @@ const HealthCheckForm = ({ setEntryAdded }: HealthCheckFormProps) => {
                         fullWidth
                         margin="normal"
                     />
-                    <TextField
-                        select
-                        label="Health Check Rating"
-                        value={newEntry.healthCheckRating}
-                        onChange={(e) => {
-                            const rating = healthCheckRatings.find(
-                                (option) => option.value === Number(e.target.value),
-                            );
-
-                            if (rating) {
-                                setNewEntry({ ...newEntry, healthCheckRating: rating.value });
+                    <FormControl fullWidth margin="normal">
+                        <InputLabel id="health-check-rating-label">Health Check Rating</InputLabel>
+                        <Select
+                            labelId="health-check-rating-label"
+                            value={newEntry.healthCheckRating}
+                            label="Health Check Rating"
+                            onChange={(e) =>
+                                setNewEntry({
+                                    ...newEntry,
+                                    healthCheckRating: Number(e.target.value) as 0 | 1 | 2 | 3,
+                                })
                             }
-                        }}
-                        fullWidth
-                        margin="normal"
-                    >
-                        {healthCheckRatings.map((option) => (
-                            <MenuItem key={option.value} value={option.value}>
-                                {option.label}
-                            </MenuItem>
-                        ))}
-                    </TextField>
-                    <TextField
-                        label="Diagnosis codes"
-                        name="diagnosisCodes"
-                        placeholder="Code 1, Code 2"
-                        helperText="Separate multiple diagnosis codes with commas"
-                        fullWidth
-                        margin="normal"
-                        value={newEntry.diagnosisCodes?.join(", ") || ""}
-                        onChange={(e) => {
-                            const codes = e.target.value.split(",").map((code) => code.trim());
-                            setNewEntry({ ...newEntry, diagnosisCodes: codes });
-                        }}
-                    />
+                        >
+                            {healthCheckRatings.map((option) => (
+                                <MenuItem key={option.value} value={option.value}>
+                                    {option.label}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
+                    <FormControl fullWidth margin="normal">
+                        <InputLabel id="diagnosis-codes-label">Diagnosis codes</InputLabel>
+                        <Select
+                            labelId="diagnosis-codes-label"
+                            multiple
+                            value={newEntry.diagnosisCodes}
+                            onChange={(e) =>
+                                setNewEntry({
+                                    ...newEntry,
+                                    diagnosisCodes: e.target.value as string[],
+                                })
+                            }
+                            input={<OutlinedInput label="Diagnosis codes" />}
+                            renderValue={(selected) => (selected as string[]).join(', ')}
+                        >
+                            {Object.keys(diagnoses).map((code) => (
+                                <MenuItem key={code} value={code}>
+                                    {code} - {diagnoses[code]}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
                     <Button type="submit" variant="contained" color="primary" sx={{ marginTop: 2 }}>
                         Add Entry
                     </Button>

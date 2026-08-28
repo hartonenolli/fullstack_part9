@@ -9,13 +9,19 @@ import {
 	CardContent,
 	TextField,
 	Typography,
+	FormControl,
+	Select,
+	MenuItem,
+	OutlinedInput,
+    InputLabel,
 } from "@mui/material";
 
 type HospitalFormProps = {
 	setEntryAdded: React.Dispatch<React.SetStateAction<boolean>>;
+    diagnoses: Record<string, string>;
 };
 
-const HospitalForm = ({ setEntryAdded }: HospitalFormProps) => {
+const HospitalForm = ({ setEntryAdded, diagnoses }: HospitalFormProps) => {
 	const { id } = useParams<{ id: string }>();
 	const [newEntry, setNewEntry] = useState<NewHospitalEntry>({
 		type: "Hospital",
@@ -89,23 +95,28 @@ const HospitalForm = ({ setEntryAdded }: HospitalFormProps) => {
 						fullWidth
 						margin="normal"
 					/>
-					<TextField
-						label="Diagnosis codes"
-						placeholder="Code 1, Code 2"
-						helperText="Separate multiple diagnosis codes with commas"
-						value={newEntry.diagnosisCodes?.join(", ") || ""}
-						onChange={(e) =>
-							setNewEntry({
-								...newEntry,
-								diagnosisCodes: e.target.value
-									.split(",")
-									.map((code) => code.trim())
-									.filter(Boolean),
-							})
-						}
-						fullWidth
-						margin="normal"
-					/>
+                    <FormControl fullWidth margin="normal">
+                        <InputLabel id="diagnosis-codes-label">Diagnosis codes</InputLabel>
+                        <Select
+                            labelId="diagnosis-codes-label"
+                            multiple
+                            value={newEntry.diagnosisCodes}
+                            onChange={(e) =>
+                                setNewEntry({
+                                    ...newEntry,
+                                    diagnosisCodes: e.target.value as string[],
+                                })
+                            }
+                            input={<OutlinedInput label="Diagnosis codes" />}
+                            renderValue={(selected) => (selected as string[]).join(', ')}
+                        >
+                            {Object.keys(diagnoses).map((code) => (
+                                <MenuItem key={code} value={code}>
+                                    {code} - {diagnoses[code]}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
 					<Typography variant="subtitle2" sx={{ marginTop: 2 }}>
 						Discharge
 					</Typography>

@@ -110,7 +110,7 @@ const PatientPage = () => {
                   <Typography>Health check</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
-                  <HealthCheckForm setEntryAdded={setEntryAdded} />
+                  <HealthCheckForm setEntryAdded={setEntryAdded} diagnoses={diagnoses} />
                 </AccordionDetails>
           </Accordion>
           <Accordion
@@ -121,7 +121,7 @@ const PatientPage = () => {
                   <Typography>Occupational healthcare</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
-                  <OccupationalHealthcareForm setEntryAdded={setEntryAdded} />
+                  <OccupationalHealthcareForm setEntryAdded={setEntryAdded} diagnoses={diagnoses} />
                 </AccordionDetails>
           </Accordion>
           <Accordion
@@ -132,7 +132,7 @@ const PatientPage = () => {
                   <Typography>Hospital</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
-                  <HospitalForm setEntryAdded={setEntryAdded} />
+                  <HospitalForm setEntryAdded={setEntryAdded} diagnoses={diagnoses} />
                 </AccordionDetails>
           </Accordion>
         </Stack>
